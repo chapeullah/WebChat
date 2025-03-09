@@ -1,0 +1,7 @@
+{
+    "type": "java",
+    "request": "launch",
+    "name": "Launch Java Program",
+    "mainClass": "HTTPServer",
+    "console": "integratedTerminal"
+}
