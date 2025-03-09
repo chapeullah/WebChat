@@ -1,1 +1,1 @@
-Simple Java server
+My simple Java server
