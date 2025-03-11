@@ -1,1 +1,1 @@
-My simple Java server
+# HTTPServer
