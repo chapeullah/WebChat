@@ -8,18 +8,33 @@ public class HTTPServer {
 
     private static final int PORT = 8080;
     private static final String IP = "localhost";
-    private static final ExecutorService executor = Executors.newFixedThreadPool(4);
+    private static ServerSocket serverSocket;
+    private static final ExecutorService executor = Executors.newFixedThreadPool(2);
     private static volatile boolean running = true;
 
     public static void main(String[] args) {
-        try (ServerSocket serverSocket = new ServerSocket(PORT)){
+        try {
+            serverSocket = new ServerSocket(PORT);
             System.out.println("Server started on " + IP + ":" + PORT);
 
             new Thread(() -> {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+                    String command = reader.readLine();
+                    if ("shutdown".equalsIgnoreCase(command)) {
+                        running = false;
+                        serverSocket.close();
+                        executor.shutdown();
+                        System.out.println("Server stopped.");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }).start();
 
-            while (true) {
-                try (Socket socket = serverSocket.accept()) {
+            while (running) {
+                Socket socket = null;
+                try {
+                    socket = serverSocket.accept();
                     System.out.println("Client connected: " + socket.getInetAddress());
 
                     InputStream inputStream = socket.getInputStream();
@@ -30,10 +45,29 @@ public class HTTPServer {
                             break;
                         }
                     }
+                } catch (IOException e) {
+                    if (!running) break;
+                    e.printStackTrace(); 
+                } finally {
+                    if (socket != null) {
+                        try {
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (serverSocket != null) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
