@@ -67,7 +67,7 @@ public class HTTPServer {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             OutputStream output = socket.getOutputStream();
-            
+
             String requestLine = reader.readLine();
             if (requestLine == null) return;
 
