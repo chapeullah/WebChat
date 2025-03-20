@@ -17,6 +17,7 @@ public class HTTPServer {
     private static final String WEB_ROOT = "www";
 
     public static void main(String[] args) {
+        System.out.println("Working Directory: " + System.getProperty("user.dir"));
         try {
             serverSocket = new ServerSocket(PORT);
             System.out.println(timeNow() + " Server started on " + IP + ":" + PORT);
