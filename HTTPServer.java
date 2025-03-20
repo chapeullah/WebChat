@@ -44,8 +44,8 @@ public class HTTPServer {
                 } finally {
                     try {
                         if (socket != null) {
+                            System.out.println("REQUEST FROM " + socket.getInetAddress() + " CLOSED");
                             socket.close();
-                            System.out.println("SOCKET " + socket.getInetAddress() + " CLOSED");
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -94,7 +94,7 @@ public class HTTPServer {
     private static void stopServer() {
         running = false;
         try {
-            System.out.println(timeNow() + " Server stopped!");
+            System.out.print(timeNow() + " Server stopped!");
             serverSocket.close();
             executor.shutdown();
         } catch (IOException e) {
