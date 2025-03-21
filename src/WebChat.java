@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 
 public class WebChat {
@@ -12,17 +14,23 @@ public class WebChat {
     private static DatabaseManager databaseManager = new DatabaseManager();
 
     private static final int PORT = 8080;
-    private static final String IP = "localhost";
+    private String serverIp;
+    private static final String BIND_ADDRESS = "0.0.0.0";
     private static ServerSocket serverSocket;
     private static final ExecutorService executor = Executors.newFixedThreadPool(2);
     private static volatile boolean running = true;
     private static final String WEB_ROOT = "www";
 
+    public WebChat() {
+        serverIp = getLocalNetworkIp();
+    }
+
     public static void main(String[] args) {
+        WebChat webChat = new WebChat();
         databaseManager.connect();
         try {
-            serverSocket = new ServerSocket(PORT);
-            System.out.println(timeNow() + " Server started on " + IP + ":" + PORT);
+            serverSocket = new ServerSocket(PORT, 5, InetAddress.getByName(BIND_ADDRESS));
+            if (webChat.serverIp != null) System.out.println(timeNow() + " Server started on http://" + webChat.serverIp + ":" + PORT);
 
             new Thread(() -> {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
@@ -129,5 +137,15 @@ public class WebChat {
 
     public static String timeNow () {
         return "[" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "]";
+    }
+
+    private static String getLocalNetworkIp() {
+        try (final DatagramSocket socket = new DatagramSocket()) {
+            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+            return socket.getLocalAddress().getHostAddress();
+        } catch (Exception e) {
+            System.err.println("Failed to get local IP: " + e.getMessage());
+            return null;
+        }
     }
 }
