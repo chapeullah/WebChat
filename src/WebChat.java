@@ -7,7 +7,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.net.ServerSocket;
 
-public class HTTPServer {
+public class WebChat {
+
+    private static DatabaseManager databaseManager = new DatabaseManager();
 
     private static final int PORT = 8080;
     private static final String IP = "localhost";
@@ -17,7 +19,7 @@ public class HTTPServer {
     private static final String WEB_ROOT = "www";
 
     public static void main(String[] args) {
-        System.out.println("Working Directory: " + System.getProperty("user.dir"));
+        databaseManager.connect();
         try {
             serverSocket = new ServerSocket(PORT);
             System.out.println(timeNow() + " Server started on " + IP + ":" + PORT);
@@ -45,7 +47,7 @@ public class HTTPServer {
                 } finally {
                     try {
                         if (socket != null) {
-                            System.out.println("REQUEST FROM " + socket.getInetAddress() + " CLOSED");
+                            System.out.println("END OF REQUEST FROM " + socket.getInetAddress());
                             socket.close();
                         }
                     } catch (IOException e) {

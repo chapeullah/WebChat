@@ -4,7 +4,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "javac -d out src/HTTPServer.java",
+            "command": "javac -d out src/*.java",
             "group": {
                 "kind": "build",
                 "isDefault": true
