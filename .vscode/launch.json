@@ -1,12 +1,12 @@
 {
     "type": "java",
     "request": "launch",
-    "name": "Launch Java Program",
-    "mainClass": "WebChat",
+    "name": "Manual Launch WebChat",
     "console": "integratedTerminal",
-    "classPaths": [
-        "out",
-        "libs/sqlite-jdbc-3.49.1.0.jar",
-        "libs/argon2-jvm-2.12.jar"
+    "runtimeExecutable": "cmd",
+    "args": [
+      "/c",
+      "java -cp out;libs/* WebChat"
     ]
-}
+  }
+  
