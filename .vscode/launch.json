@@ -3,5 +3,10 @@
     "request": "launch",
     "name": "Launch Java Program",
     "mainClass": "WebChat",
-    "console": "integratedTerminal"
+    "console": "integratedTerminal",
+    "classPaths": [
+        "out",
+        "libs/argon2-jvm-2.12.jar",
+        "libs/sqlite-jdbc-3.49.1.0.jar"
+    ]
 }

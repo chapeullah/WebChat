@@ -4,7 +4,13 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "javac -d out src/*.java",
+            "command": "javac",
+            "args": [
+                "-cp", 
+                "libs/*",
+                "-d", "out", 
+                "src/*.java"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
