@@ -28,7 +28,7 @@ public class WebChat {
     public static void main(String[] args) {
         WebChat webChat = new WebChat();
         databaseManager.connect();
-        try {
+        try {   
             serverSocket = new ServerSocket(PORT, 5, InetAddress.getByName(BIND_ADDRESS));
             if (webChat.serverIp != null) System.out.println(timeNow() + " Server started on http://" + webChat.serverIp + ":" + PORT);
 

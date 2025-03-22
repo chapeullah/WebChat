@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Enumeration;
 
 public class DatabaseManager {
 
@@ -13,17 +14,16 @@ public class DatabaseManager {
     }
 
     public void connect() {
+        Enumeration<java.sql.Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            System.out.println(WebChat.timeNow() + " Loaded driver: " + drivers.nextElement().getClass().getName());
+        }
         try {
-            try { 
-                Class.forName("org.sqlite.JDBC");
-            } catch (Exception e){
-                System.err.println(e.getMessage());
-            }
             connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
-            System.out.println("Database connected.");
+            System.out.println(WebChat.timeNow() + " Database connected.");
             executeSchema();
         } catch (SQLException e) {
-            System.err.println("Failed to connect database: " + e.getMessage());
+            System.err.println(WebChat.timeNow() + " Failed to connect database: " + e.getMessage());
         }
         return;
     }
@@ -48,9 +48,9 @@ public class DatabaseManager {
                 );
             """);
 
-            System.out.println("Tables initialized.");
+            System.out.println(WebChat.timeNow() + " Tables initialized.");
         } catch (SQLException e) {
-            System.err.println("Failed to initialize schema: " + e.getMessage());
+            System.err.println(WebChat.timeNow() + " Failed to initialize schema: " + e.getMessage());
         }
     }
 }

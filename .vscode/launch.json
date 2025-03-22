@@ -6,7 +6,7 @@
     "console": "integratedTerminal",
     "classPaths": [
         "out",
-        "libs/argon2-jvm-2.12.jar",
-        "libs/sqlite-jdbc-3.49.1.0.jar"
+        "libs/sqlite-jdbc-3.49.1.0.jar",
+        "libs/argon2-jvm-2.12.jar"
     ]
 }
