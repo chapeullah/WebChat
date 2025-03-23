@@ -105,7 +105,7 @@ public class WebChat {
     private static void stopServer() {
         running = false;
         try {
-            System.out.print(timeNow() + " Server stopped!");
+            System.out.println(timeNow() + " Server stopped!");
             serverSocket.close();
             executor.shutdown();
         } catch (IOException e) {
