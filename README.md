@@ -28,7 +28,7 @@ mvn clean package
 ### Manual
 
 ```bash
-java -cp target/WebChat-1.0.jar;libs/* WebChat
+java -cp target/WebChat-1.0.jar;target/libs/* WebChat
 ```
 
 ### Using Maven
