@@ -20,3 +20,18 @@
 
 ```bash
 mvn clean package
+```
+
+## Run
+
+### Manual
+
+```bash
+java -cp target/WebChat-1.0.jar;libs/* WebChat
+```
+
+### Using Maven
+
+```bash
+mvn exec:java
+```
