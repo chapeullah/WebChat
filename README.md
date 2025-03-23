@@ -1,4 +1,5 @@
 # WebChat: Local HTTP site
+Simple Java-based HTTP server with support for static file serving and messaging functionality.
 ## Features
 
 - Local static file hosting (`www/`)
