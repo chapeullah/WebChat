@@ -1,18 +1,22 @@
 # WebChat: Local HTTP site
-Simple Java-based HTTP server with support for static file serving and messaging functionality.
+## Features
 
-Dependencies:
-SQLite JDBC driver (org.xerial:sqlite-jdbc:3.49.1.0)
+- Local static file hosting (`www/`)
+- SQLite database integration
+- Argon2 password hashing
+- Simple command-line control (`help`, `shutdown`)
 
-Argon2 hashing (de.mkammerer:argon2-jvm:2.12)
+## Requirements
 
-Requirements:
-Java 21
+- Java 21
+- Maven
 
-Maven
+## Dependencies
 
-Build:
+- `org.xerial:sqlite-jdbc:3.49.1.0`
+- `de.mkammerer:argon2-jvm:2.12`
+
+## Build
+
+```bash
 mvn clean package
-
-Run:
-java -cp target/WebChat-1.0.jar;path/to/libs/* WebChat
