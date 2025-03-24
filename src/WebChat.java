@@ -87,7 +87,9 @@ public class WebChat {
 
             String path = requestParts[1];
             System.out.println(timeNow() + " REQUEST FROM " + socket.getInetAddress() + " " + requestLine);
+            
             if (path.equals("/")) path = "/index.html";
+            else if (path.equals("/favicon.ico")) path = "/assets/favicon.ico";
             Path filePath = Paths.get(WEB_ROOT + path);
 
             if (Files.exists(filePath) && !Files.isDirectory(filePath)) {
