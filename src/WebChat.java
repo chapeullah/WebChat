@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.nio.file.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -44,18 +45,20 @@ public class WebChat {
                 }
             }).start();
 
+            serverSocket.setSoTimeout(60000);
             while (running) {
                 Socket socket = null;
                 try {
                     socket = serverSocket.accept();
                     clientHandler(socket);
+                } catch (SocketTimeoutException timeout) {
+                    System.out.println(timeNow() + " Update socket.accept(): " + timeout.getMessage());
                 } catch (IOException e) {
                     if (!running) break;
                     e.printStackTrace(); 
                 } finally {
                     try {
                         if (socket != null) {
-                            System.out.println("END OF REQUEST FROM " + socket.getInetAddress());
                             socket.close();
                         }
                     } catch (IOException e) {
@@ -75,10 +78,11 @@ public class WebChat {
     }
 
     private static void clientHandler(Socket socket) {
-        try {
+        try (
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            OutputStream output = socket.getOutputStream();
-
+            OutputStream output = socket.getOutputStream()
+            ) {
+            
             String requestLine = reader.readLine();
             if (requestLine == null) return;
 
@@ -101,6 +105,13 @@ public class WebChat {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            System.out.println("END OF REQUEST FROM " + socket.getInetAddress());
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
